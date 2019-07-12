@@ -144,12 +144,12 @@ bool String::operator == (const char *other_string) {
 
 }
 
-double String::GetCoin() {
+int String::GetCoin() {
 
-	if (*this == "ONE POUND") return 1.0;
-	else if (*this == "TWO POUNDS") return 2.0;
+	if (*this == "ONE POUND") return 100;
+	else if (*this == "TWO POUNDS") return 200;
 
-	return (atof(static_cast<char*>(*this)))/(double)100.0;
+	return atoi(static_cast<char*>(*this));
 
 }
 

@@ -5,16 +5,49 @@
 
 using namespace std;
 
-Item::Item(const char* _name_, double _price_, int _item_number_): name(_name_), price(_price_), item_number(_item_number_), n(1) 
-{}
+Item::Item(const char* _name_, int _price_, int _item_number_): name(_name_), price(_price_), item_number(_item_number_), n(1) {}
 
+
+int Item::operator ++ () {
+	++n;
+	return n;
+}
+
+int Item::operator ++ (int) {
+
+	n++;
+	return n;
+}
+
+
+int Item::operator -- () {
+
+	--n;
+	return n;
+
+}
+
+
+int Item::operator -- (int) {
+
+	n--;
+	return n;
+
+}
+
+double Item::ShowPrice() {
+
+	return static_cast<double>(price) / static_cast<double>(100.0);
+
+}
+
+int Item::GetPricePence() { return price; }
 
 CoinList::CoinList() : total_value(0), sorted(false) {}
 
-void CoinList::AddCoin(double value) {
+void CoinList::AddCoin(int value) {
 
-	int i = -1;
-		i = static_cast<int>(coin_list.size()) - 1;
+	int i = -1; i = static_cast<int>(coin_list.size()) - 1;
 
 	coin_list.push_back(value);
 	total_value += value;
@@ -26,7 +59,7 @@ void CoinList::AddCoin(double value) {
 void CoinList::DeleteLastCoin() {
 
 	int size = static_cast<int>(coin_list.size());	
-	double value = coin_list[size - 1];
+	int value = coin_list[size - 1];
 	total_value -= value;
 	coin_list.pop_back();
 	
@@ -36,23 +69,24 @@ void CoinList::TraverseList() {
 
 	int size = static_cast<int>(coin_list.size());
 	
-	for (int i = 0; i < size - 1; i++) printf("%f GBP, ", coin_list[i]);
-	printf("%f GBP\n\n", coin_list[size - 1]);
+	for (int i = 0; i < size - 1; i++) {
 
-	printf("Total amount: %f\n\n", total_value);
+		double coin = (double)coin_list[i] / (double)100.0;
+		printf("%f GBP, ", coin);
+
+	}
+
+	printf("%f GBP\n\n", (double )coin_list[size - 1]/(double)100.0);
+	printf("Total amount: %f\n\n", (double )total_value/(double)100.0);
 
 }
 
 void CoinList::DeleteEverything() {
 
-	int size = static_cast<int>(coin_list.size());
+	coin_list.clear();
+	total_value = 0;
 
-	for (int i = size - 1; i >= 0; i--) {
-
-		total_value -= coin_list[i];
-		coin_list.pop_back();
-
-	}
+	
 }
 
 void CoinList::SortList() {
@@ -62,29 +96,20 @@ void CoinList::SortList() {
 
 }
 
-void CoinList::Pay(double amount) {
+void CoinList::Pay(int amount) {
 
-	if (sorted == false) SortList();
-	double payed_amount = 0;
-
-	while (payed_amount < amount) {
-
-		total_value -= coin_list[0];
-		payed_amount += coin_list[0];
-		coin_list.erase(coin_list.begin());
-
-	}
-
-	GiveChange(payed_amount - amount);
+	int change = total_value - amount;
+	DeleteEverything();
+	
+	GiveChange(change);
 
 }
 
-void CoinList::GiveChange(double change) {
+void CoinList::GiveChange(int change) {
 
 	if (change <= 0.0) return;
 
-	double coins[8] = { 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0 , 2.0 };
-
+	int coins[] = { 1, 2, 5, 10, 20, 50, 100 , 200 };
 
 	while (change > 0) {
 
@@ -93,17 +118,27 @@ void CoinList::GiveChange(double change) {
 		for (int i = 0; i < 8; i++) {
 
 			if (coins[i] > change) {
-				double value = coins[i - 1], prev_val = coins[i];
-				if (i > 0) { coin_list.push_back(value); change -= value; flag = true; total_value += value; break; }
-				else { coin_list.push_back(prev_val); change -= prev_val; flag = true; total_value += prev_val; break; }
+
+				int value = coins[i - 1];
+				AddCoin(value); flag = true; change -= value; 
+				break;
+
 			}
 
 		}
 
-		if (flag == false) {
-			coin_list.push_back(coins[7]); change -= 2.0; total_value += 2.0;
-		}
-
+		if (flag == false) { AddCoin(200); change -= 200; }
+		
 	}
 	
+}
+
+double CoinList::ShowTotal() {
+
+	return (double)total_value / (double)100.0;
+
+}
+
+int CoinList::GetTotalPence() {
+	return total_value;
 }

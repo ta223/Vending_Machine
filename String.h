@@ -18,7 +18,7 @@ public:
 
 	char *get_ptr();
 
-	double GetCoin();
+	int GetCoin();
 	bool IsCoin();
 
 	class Exceptions{
