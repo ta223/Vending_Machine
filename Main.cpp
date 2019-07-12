@@ -36,12 +36,15 @@ int main() {
 
 	class Console console;
 	class CoinList coin_list;
+	class MessageHistory msg_history;
 
 	while (1) {
 
 		ShowItems();
 
 		printf("Total: %f\n", coin_list.ShowTotal());
+
+		msg_history.DisplayMessage();
 
 		printf("cmd:");
 		class String command = console.Stdin_str();
@@ -50,6 +53,7 @@ int main() {
 
 			int coin = command.GetCoin();
 			coin_list.AddCoin(coin);
+			msg_history.ClearMessage();
 		
 		}
 
@@ -69,33 +73,34 @@ int main() {
 						coin_list.Pay(price);
 						--item_list[item_num - 1];
 
-						printf("You have purchased item %d at the price of %f\n", item_num, item_list[item_num - 1].ShowPrice());
-						printf("Total remaining: %f\n\n", coin_list.ShowTotal());
+						char msg[100];
 
-					} else printf("You do not have enough money\n\n");
+						sprintf(msg, "You have purchased '%s' (item #%d) at the price of %f GBP\n", 
+							(char *)item_list[item_num-1].name, item_num, item_list[item_num - 1].ShowPrice());
+
+						msg_history.NewMessage(msg);
+
+					} else msg_history.NewMessage((char *)"You do not have enough money\n");
 
 
-				} else printf("Item has run out of stock\n\n");
+				} else msg_history.NewMessage((char *)"Item is not on stock at the moment\n");
 
-			} else printf("Item does not exist\n\n");
+			} else msg_history.NewMessage((char *)"Item does not exist\n");
 
-			printf("Press ENTER to continue:"); console.fflush_stdin();
-
+		
 		}
 
 		if (command == "COIN RETURN") {
 
-			printf("Returning:");
-			coin_list.TraverseList();
+			msg_history.NewMessage("Returned Coins:");
+			coin_list.TraverseList(msg_history);
 			coin_list.DeleteEverything();
-
-			printf("Press anything to continue:");
-			console.Stdin_str();
 
 		}
 		
 
 		if (command == "SERVICE") {
+
 
 
 		}

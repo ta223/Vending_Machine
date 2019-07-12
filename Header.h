@@ -2,6 +2,19 @@
 #include "String.h"
 #include <vector>
 
+class MessageHistory {
+
+public:
+	void NewMessage(const char* message);
+	void ClearMessage();
+	void DisplayMessage();
+	void AppendMessage(const char* message);
+
+private:
+	class String msg;
+};
+
+
 class Item {
 
 public:
@@ -31,7 +44,7 @@ public:
 	CoinList();
 	void AddCoin(int value);
 	void DeleteLastCoin();
-	void TraverseList();
+	void TraverseList(class MessageHistory &msg_history);
 	void DeleteEverything();
 	
 	void Pay(int amount);
@@ -48,3 +61,4 @@ private:
 	int total_value;
 
 };
+

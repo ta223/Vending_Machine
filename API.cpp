@@ -65,19 +65,20 @@ void CoinList::DeleteLastCoin() {
 	
 }
 
-void CoinList::TraverseList() {
+void CoinList::TraverseList(class MessageHistory &msg_history) {
 
 	int size = static_cast<int>(coin_list.size());
-	
+	char msg[100];
 	for (int i = 0; i < size - 1; i++) {
 
 		double coin = (double)coin_list[i] / (double)100.0;
-		printf("%f GBP, ", coin);
+		sprintf(msg, "%f GBP, ", coin);
+		msg_history.AppendMessage(msg);
 
 	}
 
-	printf("%f GBP\n\n", (double )coin_list[size - 1]/(double)100.0);
-	printf("Total amount: %f\n\n", (double )total_value/(double)100.0);
+	sprintf(msg, "%f GBP\n", (double )coin_list[size - 1]/(double)100.0);
+	msg_history.AppendMessage(msg);
 
 }
 
@@ -141,4 +142,28 @@ double CoinList::ShowTotal() {
 
 int CoinList::GetTotalPence() {
 	return total_value;
+}
+
+void MessageHistory::NewMessage(const char* message) {
+
+	msg = message;
+
+}
+
+void MessageHistory::ClearMessage() {
+
+	msg.Clear();
+}
+
+void MessageHistory::DisplayMessage() {
+
+	if (msg.IsVoid() == false) printf("\nMSG:%s\n", (char *)msg);
+
+
+}
+
+void MessageHistory::AppendMessage(const char* message) {
+
+	msg = msg + message;
+
 }

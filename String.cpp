@@ -21,10 +21,12 @@ int String::string_length() {
 	return mem_size - 1;
 }
 
+String::String():mem_size(0), cstring(NULL) {}
+
 String::String(const char *init_string):mem_size(0),cstring(NULL) {
 
 	int len = strlen(init_string);
-	cstring = (char *)malloc(sizeof(char)*(len + 1));
+	cstring = new char[len + 1];
 	if (cstring == NULL) throw Exceptions((char *)"Memory error in class constructor");
 
 	mem_size = len+1;
@@ -36,8 +38,9 @@ String::String(const char *init_string):mem_size(0),cstring(NULL) {
 
 String::String(class String &other_string) {
 	
-	if (mem_size != 0) { free(cstring); mem_size = 0; cstring = NULL; }
-	cstring = (char *)malloc(sizeof(char)*(other_string.string_length() + 1));
+	if (mem_size > 0) { delete cstring; mem_size = 0; cstring = NULL; }
+
+	cstring = new char[other_string.string_length() + 1];
 
 	if (cstring == NULL) throw Exceptions((char *)"Memory error in copy constructor");
 
@@ -47,16 +50,20 @@ String::String(class String &other_string) {
 
 }
 
-String::~String() {if (mem_size != 0) free(cstring);}
 
-static int string_case_compare(class String &a, class String &b) { return 1; }
+void String::Clear() {
+
+	if (mem_size > 0  && cstring != NULL) { delete cstring; cstring = NULL; }
+	mem_size = 0;
+
+}
 
 class String String::operator + (class String &other_string) {
 
 
 	int len1 = this->mem_size - 1, len2 = other_string.string_length(), total_len = len1 + len2;
 
-	char *new_string = (char *)malloc(sizeof(char)*(total_len+1));
+	char *new_string = new char[total_len + 1];
 
 	if (new_string == NULL) throw Exceptions((char *)"Memory error in overloaded operator +");
 
@@ -69,40 +76,61 @@ class String String::operator + (class String &other_string) {
 	new_string[total_len] = '\0';
 
 	class String result(new_string);
-	free(new_string);
+	delete new_string;
 
 	return result;
 
 }
 
-class String String::operator = (class String &other_string) {
+class String String::operator + (const char *other_string) {
+
+	int len1 = this->mem_size - 1, len2 = strlen(other_string), total_len = len1 + len2;
+
+	char *new_string = new char[total_len + 1];
+
+	if (new_string == NULL) throw Exceptions((char *)"Memory error in overloaded operator +");
+
+	for (int i = 0; i < len1; i++)
+		new_string[i] = this->cstring[i];
+
+	for (int i = len1, j = 0; i < total_len, j < len2; i++, j++)
+		new_string[i] = other_string[j];
+
+	new_string[total_len] = '\0';
+
+	class String result(new_string);
+	delete new_string;
+
+	return result;
+
+}
+
+void String::operator = (class String &other_string) {
+
+	if (mem_size > 0 && cstring != NULL) { delete cstring; cstring = NULL; mem_size = 0; }
 
 	int len = other_string.string_length();
-	char *new_string = (char *)malloc(sizeof(char )*(len+1));
-	if (new_string == NULL) throw Exceptions((char *)"Memory error in overloaded operator = ");
+	cstring = new char[len + 1];
 
-	new_string[len] = '\0';
-	for (int i = 0; i < len; i++) new_string[i] = other_string.cstring[i];
+	if (cstring == NULL) throw Exceptions((char *)"Memory error in overloaded operator = ");
 
-	class String result(new_string);
-	free(new_string);
+	cstring[len] = '\0';
+	for (int i = 0; i < len; i++) cstring[i] = other_string.cstring[i];
+	mem_size = len + 1;
 
-	return result;
 }
 
-class String String::operator = (const char *other_string) {
+void String::operator = (const char *other_string) {
 
+	if (mem_size > 0 && cstring != NULL) { delete cstring; cstring = NULL; mem_size = 0; }
 
 	int len = strlen(other_string);
-	char *new_string = (char *)malloc(sizeof(char)*(len + 1));
-	if (new_string == NULL) throw Exceptions((char *)"Memory error in overloaded operator = ");
-	new_string[len] = '\0';
-	for (int i = 0; i < len; i++) new_string[i] = other_string[i];
+	cstring = new char[len + 1];
+	if (cstring == NULL) throw Exceptions((char *)"Memory error in overloaded operator = ");
+	cstring[len] = '\0';
+	for (int i = 0; i < len; i++) cstring[i] = other_string[i];
 
-	class String result(new_string);
-	free(new_string);
-
-	return result;
+	mem_size = len + 1;
 
 }
 
@@ -163,3 +191,12 @@ bool String::IsCoin() {
 	return false;
 
 }
+
+bool String::IsVoid() {
+
+	if (mem_size <= 0) return true;
+	return false;
+
+}
+
+String::~String() { if (mem_size > 0) delete cstring; }
