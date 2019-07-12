@@ -51,6 +51,41 @@ char* Console::Stdin_str() {
 
 }
 
+
+char *Console::Stdin_str_nocommas(void) {
+
+	char *str = (char *)malloc(sizeof(char) * 2);
+
+	if (str == NULL) throw Exceptions("Memory Error:Failed to get string input from command line");
+
+	size_t used = 0, allocated = sizeof(char);
+	int i = 0;
+	char temp;
+
+	while (1) {
+
+		if (used == allocated)
+			str = (char *)realloc(str, allocated += sizeof(char));
+
+		temp = getchar();
+
+		if (temp == '\n' || temp == '\t' || temp == EOF)
+			break;
+
+		if (temp != ',') {
+			str[i++] = temp;
+			used += sizeof(char);
+		}
+
+	}
+
+	fflush_stdin();
+
+	str[i] = '\0';
+	return str;
+
+}
+
 bool Console::compare_string(const char *str1, const char *str2) {
 
 	for (int i = 0; i < (int )strlen(str2); i++) 

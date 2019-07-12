@@ -19,15 +19,126 @@ void GetDefaultItems() {
 
 }
 
+int FindItem(const char *name) {
+
+	int size = (int)item_list.size();
+
+	for (int i = 0; i < size; i++) if (item_list[i].name == name) return i;
+
+	return -1;
+}
+
 void ShowItems() {
 
 	int size = (int)item_list.size();
 
 	for (int i = 0; i < size; i++) {
-		printf("#%d. %s %f GBP, %d left\n", i + 1, (char *)item_list[i].name, item_list[i].ShowPrice(), item_list[i].n);
+		printf("#%d. %s %.2f GBP, %d left\n", i + 1, (char *)item_list[i].name, item_list[i].ShowPrice(), item_list[i].n);
 	}
 
 	printf("\n\n\n");
+}
+
+void ServiceLoop(class Console &console, class MessageHistory &msg_history) {
+
+	CLEAR_CONSOLE;
+	
+	msg_history.ClearMessage();
+
+	while (1) {
+
+		printf("1. Add Items\n2. Remove Items\n3. Exit\n\n");
+		msg_history.DisplayMessage();
+
+		printf("cmd:");
+		class String command = console.Stdin_str();
+
+		if (command == "Add Items") {
+
+			msg_history.ClearMessage();
+
+			printf("Enter the item name, its price, and the quantity:");
+			command = console.Stdin_str_nocommas();
+
+			char name[100];
+			double price = -1.0;
+			int n = -1;
+
+			if (sscanf((char *)command, "%s %lf %d\n", (char *)name, &price, &n) != EOF && n != -1 && price != -1.0) {
+
+				int index = FindItem(name);
+				char msg[100];
+
+				if (index == -1) { 
+					sprintf(msg, "Item %s does not exist\n", name);
+					msg_history.NewMessage(msg); 
+					goto end;
+				}
+
+				item_list[index]+n;
+				int pence = (int)(price*(double)100.0);
+				item_list[index].SetPrice(pence);
+
+				sprintf(msg, "Item added succesfully\n");
+				msg_history.NewMessage(msg);
+
+			}
+
+			else msg_history.NewMessage("Invalid input\n");
+
+		}
+
+		if (command == "Remove Items") {
+
+			msg_history.ClearMessage();
+
+			printf("Enter item name and quantity:");
+			command = console.Stdin_str_nocommas();
+
+			char name[100];
+			int quantity = -1;
+			if ( sscanf((char *)command, "%s %d\n", (char *)name, &quantity) !=EOF && quantity != -1) {
+
+				int index = FindItem((char *)name);
+				char msg[100];
+
+				if (index == -1) {
+					sprintf(msg, "Item %s does not exist", (char *)name);
+					msg_history.NewMessage(msg);
+					goto end;
+				}
+
+				if (item_list[index].n != 0) {
+
+					item_list[index] - quantity;
+					if (item_list[index].n < 0) item_list[index].n = 0;
+
+					sprintf(msg, "Item removed succesfully\n");
+					msg_history.NewMessage(msg);
+					goto end;
+
+				}
+
+				sprintf(msg, "Item has 0 stocks\n");
+				msg_history.NewMessage(msg);
+
+			}
+
+			else msg_history.NewMessage("Invalid input\n");
+
+		}
+
+		if (command == "Exit") break;
+
+		end: {
+			CLEAR_CONSOLE;
+		}
+
+	}
+
+	msg_history.ClearMessage();
+	CLEAR_CONSOLE;
+
 }
 
 int main() {
@@ -99,11 +210,10 @@ int main() {
 		}
 		
 
-		if (command == "SERVICE") {
+		if (command == "SERVICE") 
+			ServiceLoop(console, msg_history);
 
-
-
-		}
+		
 
 		CLEAR_CONSOLE;
 

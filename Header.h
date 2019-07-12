@@ -28,9 +28,12 @@ public:
 	int operator ++ (int);	//post fix overload
 	int operator -- ();
 	int operator -- (int);
+	int operator + (int n_add);
+	int operator - (int n_sub);
 
 	double ShowPrice();	//shows price in pounds
 	int GetPricePence();
+	void SetPrice(int pence);
 
 private:
 	int price;	//price in pence

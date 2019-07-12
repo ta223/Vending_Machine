@@ -14,6 +14,7 @@ class Console {
 public:
 	static void fflush_stdin(void);
 	static char *Stdin_str();
+	static char *Stdin_str_nocommas(void);
 	static bool compare_string(const char *str1, const char *str2);
 	static double GetDouble();
 	static int GetInt();

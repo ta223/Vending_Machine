@@ -35,6 +35,19 @@ int Item::operator -- (int) {
 
 }
 
+int Item::operator + (int n_add) {
+
+	n += n_add;
+	return n;
+}
+
+int Item::operator - (int n_sub) {
+
+	n -= n_sub;
+	return n;
+
+}
+
 double Item::ShowPrice() {
 
 	return static_cast<double>(price) / static_cast<double>(100.0);
@@ -42,6 +55,10 @@ double Item::ShowPrice() {
 }
 
 int Item::GetPricePence() { return price; }
+
+void Item::SetPrice(int pence) {
+	price = pence;
+}
 
 CoinList::CoinList() : total_value(0), sorted(false) {}
 
