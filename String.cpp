@@ -199,11 +199,14 @@ bool String::IsVoid() {
 
 }
 
-char* String::LowerCase(char *string) {
+char* String::LowerCase(const char *string) {
 
 	int len = strlen(string);
-	for (int i = 0; i < len; i++) string[i] = tolower(string[i]);
-	return string;
+	char *new_string = new char[len + 1];
+	new_string[len] = '\0';
+
+	for (int i = 0; i < len; i++) new_string[i] = tolower(string[i]);
+	return new_string;
 }
 
 void String::LowerCase() {

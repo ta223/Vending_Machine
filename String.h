@@ -27,7 +27,7 @@ public:
 
 	bool IsVoid();
 
-	static char* LowerCase(char *string);
+	static char* LowerCase(const char *string);
 	void LowerCase();
 
 	class Exceptions{

@@ -21,15 +21,15 @@ void GetDefaultItems() {
 	/*add more stuff here*/
 }
 
-int FindItem(char *name) {
+int FindItem(const char *name) {
 
-	String::LowerCase(name);	//convert to lower case
+	char *lowercase_name = String::LowerCase(name);	//convert to lower case
 
 	int size = (int)item_list.size();
 	for (int i = 0; i < size; i++) {
 
 		class String item_name = String::LowerCase( (char *)item_list[i].name   );	//convert item name to lower case
-		if (item_name == (const char *)name) return i;	//now the comparison is not case sensitive
+		if (item_name == (const char *)lowercase_name) return i;	//now the comparison is not case sensitive
 
 	}
 
