@@ -27,6 +27,9 @@ public:
 
 	bool IsVoid();
 
+	static char* LowerCase(char *string);
+	void LowerCase();
+
 	class Exceptions{
 	public:
 		Exceptions(char *error_type);

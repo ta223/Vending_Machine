@@ -199,4 +199,18 @@ bool String::IsVoid() {
 
 }
 
+char* String::LowerCase(char *string) {
+
+	int len = strlen(string);
+	for (int i = 0; i < len; i++) string[i] = tolower(string[i]);
+	return string;
+}
+
+void String::LowerCase() {
+
+	int len = strlen(cstring);
+	for (int i = 0; i < len; i++) cstring[i] = tolower(cstring[i]);
+
+}
+
 String::~String() { if (mem_size > 0) delete cstring; }

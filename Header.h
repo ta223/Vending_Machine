@@ -32,8 +32,8 @@ public:
 	int operator - (int n_sub);
 
 	double ShowPrice();	//shows price in pounds
-	int GetPricePence();
-	void SetPrice(int pence);
+	int GetPricePence();	//get price in pence
+	void SetPrice(int pence);	//set price
 
 private:
 	int price;	//price in pence
