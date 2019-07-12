@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Item::Item(const char* _name_, int _price_, int _item_number_): name(_name_), price(_price_), item_number(_item_number_), n(1) {}
+Item::Item(const char* _name_, int _price_, int _item_number_): name(_name_), price(_price_), item_number(_item_number_), n(_item_number_) {}
 
 
 int Item::operator ++ () {

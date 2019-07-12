@@ -11,11 +11,12 @@ vector<class Item> item_list;	//array where all items are stored
 
 void GetDefaultItems() {
 
-	item_list.push_back(Item("Pepsi", 30, 1));
-	item_list.push_back(Item("Coca cola", 245, 2));
-	item_list.push_back(Item("Mars", 345, 3));
-	item_list.push_back(Item("Fanta", 25, 4));
-
+	item_list.push_back(Item("Pepsi", 210, 20));
+	item_list.push_back(Item("Coca cola", 175, 25));
+	item_list.push_back(Item("Mars", 80, 17));
+	item_list.push_back(Item("Fanta", 150, 10));
+	item_list.push_back(Item("Snickers", 75, 10));
+	item_list.push_back(Item("Doritos", 70, 5));
 
 }
 
