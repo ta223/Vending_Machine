@@ -214,16 +214,27 @@ int main() {
 
 		if (command == "COIN RETURN") {
 
-			msg_history.NewMessage("Returned Coins:");
-			coin_list.TraverseList(msg_history);
-			coin_list.DeleteEverything();
+			if (coin_list.GetTotalPence() != 0) {
+
+				msg_history.NewMessage("Returned Coins:");
+				coin_list.TraverseList(msg_history);
+				coin_list.DeleteEverything();
+
+			}
+
+			else msg_history.NewMessage("You did not insert any coin\n");
 
 		}
 		
 
-		if (command == "SERVICE") 
-			ServiceLoop(console, msg_history);
+		if (command == "SERVICE") {
 
+			printf("Enter password:");
+			class String password = console.Stdin_str();
+			if(password == "1234abc")
+				ServiceLoop(console, msg_history);
+
+		}
 		
 		CLEAR_CONSOLE;
 
