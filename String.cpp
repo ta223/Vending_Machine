@@ -1,12 +1,11 @@
 #include "String.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
 #include <string>
 
 using namespace std;
 
-String::Exceptions::Exceptions(char *error_type) {
-	printf("Error:%s\n", error_type);
+String::Exceptions::Exceptions(const char *error_type) {
+	cout << "Error:" << error_type << endl;
 }
 
 void String::copy_char(const char *source, char *dest) {
@@ -27,7 +26,7 @@ String::String(const char *init_string):mem_size(0),cstring(NULL) {
 
 	int len = strlen(init_string);
 	cstring = new char[len + 1];
-	if (cstring == NULL) throw Exceptions((char *)"Memory error in class constructor");
+	if (cstring == NULL) throw Exceptions("Memory error in class constructor");
 
 	mem_size = len+1;
 	cstring[len] = '\0';
@@ -42,7 +41,7 @@ String::String(class String &other_string) {
 
 	cstring = new char[other_string.string_length() + 1];
 
-	if (cstring == NULL) throw Exceptions((char *)"Memory error in copy constructor");
+	if (cstring == NULL) throw Exceptions("Memory error in copy constructor");
 
 	mem_size = other_string.string_length() + 1;
 	cstring[mem_size - 1] = '\0';
@@ -65,7 +64,7 @@ class String String::operator + (class String &other_string) {
 
 	char *new_string = new char[total_len + 1];
 
-	if (new_string == NULL) throw Exceptions((char *)"Memory error in overloaded operator +");
+	if (new_string == NULL) throw Exceptions("Memory error in overloaded operator +");
 
 	for (int i = 0; i < len1; i++)
 		new_string[i] = this->cstring[i];
@@ -88,7 +87,7 @@ class String String::operator + (const char *other_string) {
 
 	char *new_string = new char[total_len + 1];
 
-	if (new_string == NULL) throw Exceptions((char *)"Memory error in overloaded operator +");
+	if (new_string == NULL) throw Exceptions("Memory error in overloaded operator +");
 
 	for (int i = 0; i < len1; i++)
 		new_string[i] = this->cstring[i];
@@ -112,7 +111,7 @@ void String::operator = (class String &other_string) {
 	int len = other_string.string_length();
 	cstring = new char[len + 1];
 
-	if (cstring == NULL) throw Exceptions((char *)"Memory error in overloaded operator = ");
+	if (cstring == NULL) throw Exceptions("Memory error in overloaded operator = ");
 
 	cstring[len] = '\0';
 	for (int i = 0; i < len; i++) cstring[i] = other_string.cstring[i];
@@ -126,7 +125,7 @@ void String::operator = (const char *other_string) {
 
 	int len = strlen(other_string);
 	cstring = new char[len + 1];
-	if (cstring == NULL) throw Exceptions((char *)"Memory error in overloaded operator = ");
+	if (cstring == NULL) throw Exceptions("Memory error in overloaded operator = ");
 	cstring[len] = '\0';
 	for (int i = 0; i < len; i++) cstring[i] = other_string[i];
 

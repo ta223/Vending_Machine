@@ -32,7 +32,7 @@ public:
 
 	class Exceptions{
 	public:
-		Exceptions(char *error_type);
+		Exceptions(const char *error_type);
 	};
 
 	~String();

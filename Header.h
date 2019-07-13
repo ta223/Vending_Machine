@@ -65,3 +65,12 @@ private:
 
 };
 
+class ItemList{
+
+public:
+	std::vector<class Item> item_list;	//array where all items are stored
+	void GetDefaultItems();
+	int FindItem(const char *name);
+	void ShowItems();
+
+};
