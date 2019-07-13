@@ -5,7 +5,7 @@ This short readme describes some important aspects of the code. Not everything i
 *FILE OVERVIEW 
 
 The files console.cpp and Console.h contains some functions useful for setting up a command line interface. Not everything in these 2 files are relevant for this assessment because I wrote them last year for my University projects (originally written in C).
-The files String.h and String.cpp define the String class. I wrote this class instead of using std::string to make it more intuitive and readable. The class, in fact, contains overloaded binary operators that can be used between objects of class String or between an object and a variable of type char*. It also contains functions dedicated specifically for this project, like IsCoin(), GetCoin() and LowerCase().
+The files String.h and String.cpp define the String class.
 
 The files Header.h, API.cpp and Main.cpp are the ones that build the whole system for a vending machine.
 
