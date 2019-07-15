@@ -2,6 +2,8 @@
 
 This short readme describes some important aspects of the code. Not everything is described here as most of the code is readable and intuitive (or at least i hope so).
 
+NOTE: When the program asks for string input press ENTER twice
+
 *FILE OVERVIEW 
 
 The files Console.cpp and Console.h contains some functions useful for setting up a command line interface. Not everything in these 2 files are relevant for this assessment because I wrote them last year for my University projects (originally written in C).
